@@ -28,10 +28,10 @@ const ChatMessages = ({ messages, isTyping }) => {
                     <div className="mt-4 space-y-2 w-full max-w-xs">
                         <div className="text-xs text-gray-500 text-left">Przykładowe pytania:</div>
                         <div className="text-xs bg-gray-100 p-2 rounded text-left">
-                            "Ile wynosi urlop macierzyński?"
+                            Ile wynosi urlop ?
                         </div>
                         <div className="text-xs bg-gray-100 p-2 rounded text-left">
-                            "Jak napisać opis stanowiska?"
+                            Jaka jest stawka za nadgodziny?
                         </div>
                     </div>
                 </div>
