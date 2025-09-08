@@ -12,7 +12,7 @@ const ChatHeader = ({ onClearChat }) => {
                         <Bot className="w-6 h-6" />
                     </div>
                     <div>
-                        <h1 className="font-semibold">AI Asystent BHP</h1>
+                        <h1 className="font-semibold">AI Asystent HR</h1>
                         <p className="text-xs text-blue-100">Online</p>
                     </div>
                 </div>
