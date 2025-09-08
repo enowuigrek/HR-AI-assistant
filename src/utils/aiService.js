@@ -1,26 +1,7 @@
-// utils/aiService.js
-import OpenAI from 'openai';
+// utils/aiService.js - Wersja z Netlify Functions
+console.log('🚀 Używam Netlify Functions dla OpenAI');
 
-// Sprawdź klucz API
-const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
-
-console.log('🔑 API Key status:', {
-    vite_env: !!apiKey,
-    length: apiKey?.length,
-    starts: apiKey?.substring(0, 7)
-});
-
-// Konfiguracja OpenAI
-const openai = new OpenAI({
-    apiKey: apiKey || 'dummy-key',
-    dangerouslyAllowBrowser: true // Tylko dla dev - w produkcji użyj proxy
-});
-
-// Stan przechowujący załadowaną wiedzę z PDF
-let pdfKnowledge = '';
-let isPdfLoaded = false;
-
-// Baza wiedzy HR
+// Baza wiedzy HR jako fallback
 const HR_KNOWLEDGE = {
     'urlop macierzyński': 'Urlop macierzyński w Polsce wynosi 20 tygodni i przysługuje od 6. tygodnia przed przewidywaną datą porodu.',
     'wypowiedzenie umowy': 'Okres wypowiedzenia zależy od stażu pracy: do 6 miesięcy - 2 tygodnie, od 6 miesięcy do 3 lat - 1 miesiąc, powyżej 3 lat - 3 miesiące.',
@@ -29,77 +10,54 @@ const HR_KNOWLEDGE = {
     'godziny nadliczbowe': 'Limit godzin nadliczbowych to 150 godzin w roku dla jednego pracownika, maksymalnie 4 godziny dziennie.'
 };
 
-// Główna funkcja AI - UPROSZCZONA
+// Główna funkcja AI - używa Netlify Functions
 export const getAIResponse = async (message, conversationHistory = []) => {
     try {
-        // Sprawdź czy mamy klucz API
-        if (!apiKey || apiKey === 'dummy-key') {
-            console.warn('Brak klucza OpenAI API - używam lokalnej bazy wiedzy');
-            return getFallbackResponse(message);
+        console.log('📨 Wysyłam do Netlify Function:', message.substring(0, 50));
+
+        // Wywołanie Netlify Function
+        const response = await fetch('/.netlify/functions/openai', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: message.trim(),
+                conversationHistory: conversationHistory
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        // Przygotuj wiadomości dla OpenAI - PROSTY SYSTEM PROMPT
-        const messages = [
-            {
-                role: "system",
-                content: `Jesteś ekspertem HR w Polsce. Odpowiadasz na pytania o prawo pracy, rekrutację i zarządzanie zespołem.
+        const data = await response.json();
 
-ZASADY:
-- Używaj polskich przepisów (Kodeks Pracy, RODO)
-- Odpowiadaj konkretnie i zwięźle
-- Używaj prostego języka
-- Jeśli nie wiesz, powiedz to wprost
-
-ZAKRES: urlopy, umowy, rekrutacja, wynagrodzenia, RODO, zarządzanie zespołem.`
-            }
-        ];
-
-        // Dodaj poprzednie wiadomości (ostatnie 4)
-        const recentHistory = conversationHistory.slice(-4);
-        recentHistory.forEach(msg => {
-            messages.push({
-                role: msg.type === 'user' ? 'user' : 'assistant',
-                content: msg.content
-            });
-        });
-
-        // Dodaj aktualne pytanie
-        messages.push({
-            role: "user",
-            content: message
-        });
-
-        // Wywołanie OpenAI API
-        const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
-            messages: messages,
-            max_tokens: 500,
-            temperature: 0.2, // Niska temperatura dla spójności
-        });
-
-        const response = completion.choices[0]?.message?.content;
-
-        if (!response) {
-            throw new Error('Brak odpowiedzi z OpenAI API');
+        if (data.error) {
+            throw new Error(data.error);
         }
 
-        return response.trim();
+        console.log('✅ Odpowiedź otrzymana z:', data.source || 'server');
+
+        return data.response;
 
     } catch (error) {
-        console.error('Błąd OpenAI API:', error);
+        console.error('❌ Błąd wywołania Netlify Function:', error);
+
+        // Fallback do lokalnej bazy wiedzy
+        console.log('🔄 Używam lokalnej bazy wiedzy jako fallback');
         return getFallbackResponse(message);
     }
 };
 
-// Funkcja fallback przy błędach API
+// Funkcja fallback przy błędach
 const getFallbackResponse = (message) => {
     const lowerMessage = message.toLowerCase();
 
-    // Sprawdź czy pytanie dotyczy HR - lista słów kluczowych
+    // Sprawdź czy pytanie dotyczy HR
     const hrKeywords = ['urlop', 'umowa', 'pracownik', 'pracodawca', 'wynagrodzenie', 'rekrutacja', 'zwolnienie', 'wypowiedzenie', 'rodo', 'hr', 'praca', 'zespół', 'mobbing', 'ocena', 'bhp', 'bezpieczeństwo'];
     const isHRRelated = hrKeywords.some(keyword => lowerMessage.includes(keyword));
 
-    // Jeśli nie dotyczy HR - przekieruj
     if (!isHRRelated && !lowerMessage.includes('pomoc') && !lowerMessage.includes('możesz')) {
         return 'Jestem ekspertem HR i odpowiadam tylko na pytania o prawo pracy i zarządzanie zespołem. O co z tego zakresu chciałbyś zapytać?';
     }
@@ -112,7 +70,6 @@ const getFallbackResponse = (message) => {
         }
     }
 
-    // Sprawdź podstawowe słowa kluczowe
     if (lowerMessage.includes('urlop')) {
         return 'W Polsce masz prawo do urlopu: 20 dni (jeśli pracujesz krócej niż 10 lat) lub 26 dni (jeśli dłużej). Urlop macierzyński to 20 tygodni dla mamy.';
     }
@@ -125,60 +82,35 @@ const getFallbackResponse = (message) => {
         return 'Jestem AI Asystentem HR. Pomagam z pytaniami o: urlopy, umowy o pracę, wypowiedzenia, wynagrodzenia, rekrutację, RODO i zarządzanie zespołem. Zadaj konkretne pytanie!';
     }
 
-    // Ogólna odpowiedź HR
     return 'Jestem ekspertem HR w Polsce. Odpowiadam na pytania o prawo pracy, rekrutację i zarządzanie zespołem. O co konkretnie chciałbyś zapytać?';
 };
 
-// Funkcja do ładowania wiedzy z PDF
-export const loadPDFKnowledge = async () => {
-    try {
-        if (isPdfLoaded) {
-            return { success: true, message: 'Wiedza już załadowana' };
-        }
-
-        // Używamy wbudowanej wiedzy jako fallback
-        pdfKnowledge = Object.entries(HR_KNOWLEDGE)
-            .map(([topic, content]) => `${topic.toUpperCase()}:\n${content}\n`)
-            .join('\n');
-
-        isPdfLoaded = true;
-
-        return {
-            success: true,
-            message: 'Załadowano wbudowaną bazę wiedzy HR',
-            source: 'builtin'
-        };
-
-    } catch (error) {
-        console.error('Błąd ładowania wiedzy:', error);
-        return {
-            success: false,
-            error: error.message
-        };
-    }
-};
-
-// Funkcja do testowania połączenia z OpenAI
+// Funkcja do testowania połączenia z funkcją Netlify
 export const testOpenAIConnection = async () => {
     try {
-        if (!apiKey || apiKey === 'dummy-key') {
-            return {
-                success: false,
-                error: 'Brak klucza API w zmiennych środowiskowych'
-            };
+        const response = await fetch('/.netlify/functions/openai', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: 'Test połączenia - odpowiedz krótko OK',
+                conversationHistory: []
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
 
-        const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
-            messages: [{ role: "user", content: "Test połączenia - odpowiedz krótko 'OK'" }],
-            max_tokens: 10
-        });
+        const data = await response.json();
 
         return {
             success: true,
-            message: 'Połączenie z OpenAI działa poprawnie',
-            model: 'gpt-4o-mini'
+            message: 'Połączenie z Netlify Function działa poprawnie',
+            source: data.source || 'netlify-function'
         };
+
     } catch (error) {
         return {
             success: false,
@@ -187,11 +119,19 @@ export const testOpenAIConnection = async () => {
     }
 };
 
-// Status ładowania PDF
+// Funkcje do obsługi PDF (zachowane dla kompatybilności)
+export const loadPDFKnowledge = async () => {
+    return {
+        success: true,
+        message: 'Załadowano wbudowaną bazę wiedzy HR',
+        source: 'builtin'
+    };
+};
+
 export const getPDFStatus = () => {
     return {
-        isLoaded: isPdfLoaded,
-        hasContent: !!pdfKnowledge,
-        contentLength: pdfKnowledge.length
+        isLoaded: true,
+        hasContent: true,
+        contentLength: Object.keys(HR_KNOWLEDGE).length
     };
 };
