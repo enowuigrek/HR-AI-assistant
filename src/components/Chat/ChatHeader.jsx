@@ -12,7 +12,7 @@ const ChatHeader = ({ onClearChat }) => {
                         <Bot className="w-6 h-6" />
                     </div>
                     <div>
-                        <h1 className="font-semibold">AI Asystent HR</h1>
+                        <h1 className="font-semibold">HR Asystent</h1>
                         <p className="text-xs text-blue-100">Online</p>
                     </div>
                 </div>
@@ -39,7 +39,7 @@ const ChatHeader = ({ onClearChat }) => {
                         <Bot className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                        <h1 className="font-semibold text-gray-800">AI Asystent HR</h1>
+                        <h1 className="font-semibold text-gray-800">HR Asystent</h1>
                         <p className="text-sm text-gray-500">Zadaj pytanie o HR i prawo pracy</p>
                     </div>
                 </div>

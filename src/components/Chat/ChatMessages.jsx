@@ -19,7 +19,7 @@ const ChatMessages = ({ messages, isTyping }) => {
                         <Bot className="w-8 h-8 text-blue-600" />
                     </div>
                     <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                        Witaj w AI Asyście HR!
+                        Cześć, jestem asystentem HR!
                     </h3>
                     <p className="text-gray-600 text-sm md:text-base max-w-md">
                         Zadaj pytanie o HR, prawo pracy, rekrutację i zarządzanie zespołem.
@@ -28,7 +28,7 @@ const ChatMessages = ({ messages, isTyping }) => {
                     <div className="mt-4 space-y-2 w-full max-w-xs">
                         <div className="text-xs text-gray-500 text-left">Przykładowe pytania:</div>
                         <div className="text-xs bg-gray-100 p-2 rounded text-left">
-                            Ile wynosi urlop ?
+                            Ile wynosi urlop?
                         </div>
                         <div className="text-xs bg-gray-100 p-2 rounded text-left">
                             Jaka jest stawka za nadgodziny?
