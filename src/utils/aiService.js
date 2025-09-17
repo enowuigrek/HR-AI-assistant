@@ -1,7 +1,10 @@
-// utils/aiService.js - Wersja z Netlify Functions
-console.log('🚀 Używam Netlify Functions dla OpenAI');
+// utils/aiService.js - NOWA WERSJA z Railway Backend
+console.log('🚀 Używam Railway Backend API');
 
-// Baza wiedzy HR jako fallback
+// URL do Railway backendu
+const BACKEND_URL = 'https://ai-hr-backend-production-3c1d.up.railway.app';
+
+// Baza wiedzy HR jako fallback (zachowana na wszelki wypadek)
 const HR_KNOWLEDGE = {
     'urlop macierzyński': 'Urlop macierzyński w Polsce wynosi 20 tygodni i przysługuje od 6. tygodnia przed przewidywaną datą porodu.',
     'wypowiedzenie umowy': 'Okres wypowiedzenia zależy od stażu pracy: do 6 miesięcy - 2 tygodnie, od 6 miesięcy do 3 lat - 1 miesiąc, powyżej 3 lat - 3 miesiące.',
@@ -10,20 +13,23 @@ const HR_KNOWLEDGE = {
     'godziny nadliczbowe': 'Limit godzin nadliczbowych to 150 godzin w roku dla jednego pracownika, maksymalnie 4 godziny dziennie.'
 };
 
-// Główna funkcja AI - używa Netlify Functions
+// Główna funkcja AI - NOWA: używa Railway Backend
 export const getAIResponse = async (message, conversationHistory = []) => {
     try {
-        console.log('📨 Wysyłam do Netlify Function:', message.substring(0, 50));
+        console.log('📨 Wysyłam do Railway Backend:', message.substring(0, 50));
 
-        // Wywołanie Netlify Function
-        const response = await fetch('/.netlify/functions/openai', {
+        // Generuj unikatowy sessionId jeśli nie ma
+        const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+        // Wywołanie Railway Backend API
+        const response = await fetch(`${BACKEND_URL}/api/chat`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 message: message.trim(),
-                conversationHistory: conversationHistory
+                sessionId: sessionId
             }),
         });
 
@@ -37,12 +43,12 @@ export const getAIResponse = async (message, conversationHistory = []) => {
             throw new Error(data.error);
         }
 
-        console.log('✅ Odpowiedź otrzymana z:', data.source || 'server');
+        console.log('✅ Odpowiedź otrzymana z Railway:', data.source || 'backend');
 
         return data.response;
 
     } catch (error) {
-        console.error('❌ Błąd wywołania Netlify Function:', error);
+        console.error('❌ Błąd wywołania Railway Backend:', error);
 
         // Fallback do lokalnej bazy wiedzy
         console.log('🔄 Używam lokalnej bazy wiedzy jako fallback');
@@ -85,18 +91,11 @@ const getFallbackResponse = (message) => {
     return 'Jestem ekspertem HR w Polsce. Odpowiadam na pytania o prawo pracy, rekrutację i zarządzanie zespołem. O co konkretnie chciałbyś zapytać?';
 };
 
-// Funkcja do testowania połączenia z funkcją Netlify
-export const testOpenAIConnection = async () => {
+// Funkcja do testowania połączenia z Railway Backend
+export const testBackendConnection = async () => {
     try {
-        const response = await fetch('/.netlify/functions/openai', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message: 'Test połączenia - odpowiedz krótko OK',
-                conversationHistory: []
-            }),
+        const response = await fetch(`${BACKEND_URL}/health`, {
+            method: 'GET',
         });
 
         if (!response.ok) {
@@ -107,8 +106,9 @@ export const testOpenAIConnection = async () => {
 
         return {
             success: true,
-            message: 'Połączenie z Netlify Function działa poprawnie',
-            source: data.source || 'netlify-function'
+            message: 'Połączenie z Railway Backend działa poprawnie',
+            backend: 'railway',
+            version: data.version || 'unknown'
         };
 
     } catch (error) {
@@ -119,12 +119,12 @@ export const testOpenAIConnection = async () => {
     }
 };
 
-// Funkcje do obsługi PDF (zachowane dla kompatybilności)
+// Zachowaj kompatybilność z istniejącymi funkcjami
 export const loadPDFKnowledge = async () => {
     return {
         success: true,
-        message: 'Załadowano wbudowaną bazę wiedzy HR',
-        source: 'builtin'
+        message: 'Backend używa pełnej bazy wiedzy HR z Railway',
+        source: 'railway-backend'
     };
 };
 
@@ -132,6 +132,7 @@ export const getPDFStatus = () => {
     return {
         isLoaded: true,
         hasContent: true,
-        contentLength: Object.keys(HR_KNOWLEDGE).length
+        contentLength: Object.keys(HR_KNOWLEDGE).length,
+        backend: 'railway'
     };
 };
