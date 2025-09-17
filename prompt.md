@@ -1,52 +1,47 @@
-Kontynuujemy pracę nad projektem AI HR Assistant - migracja z Netlify Functions na Railway backend.
+## Prompt
 
-WAŻNE INFO O WSPÓŁPRACY:
-- Uczę się backend development od zera - wyjaśniaj "jak dziecku"
-- Robimy małymi krokami, testuję po każdym kroku
-- Zadaję dodatkowe pytania żeby zrozumieć co robimy
-- Jak podmieniać kod w plikach - dawaj mi gotowe całe pliki do wklejenia
-- Pracuję przez GitHub Codespaces + Railway deployment
+**CO ROBIMY:** Finalizacja AI HR Assistant - przełączanie z trybu testowego na produkcyjny
 
-LINKI I NARZĘDZIA:
-- Backend na Railway: https://ai-hr-backend-production-3c1d.up.railway.app
-- Testujemy na: https://reqbin.com
-- Frontend: React na Netlify (MIGRACJA JUTRO)
-- GitHub: Codespaces dla edycji kodu
-- Model AI: OpenAI GPT-4o-mini
+**LEVEL DEVELOPERA:** Backend development od zera - wyjaśniaj "jak dziecku", małe kroki, testowanie po każdym kroku
 
-TECH STACK:
-- Backend: Node.js + Express.js + PostgreSQL (GOTOWY)
-- Frontend: React + Vite + Tailwind (Netlify → Railway jutro)
-- AI: OpenAI GPT-4o-mini API
-- Deployment: Railway (auto-deploy z GitHub)
-- Database: PostgreSQL na Railway
+**AKTUALNY PROBLEM:** Backend działa w trybie testowym z unikatowymi danymi (99 dni urlopu!), trzeba przełączyć na prawdziwe dane HR
 
-KOSZTY I LIMITY:
-- Railway: Free tier (512MB RAM, 1GB storage) - wystarczy na development
-- OpenAI: GPT-4o-mini (~$0.15/1M tokenów) - bardzo tani model
-- PostgreSQL: Included w Railway free tier
-- Netlify: Free tier dla frontendu (do jutra)
+## 📚 TECH STACK & TOOLS
 
-AKTUALNY PROGRESS:
-✅ ZAKOŃCZONE (BACKEND PRODUCTION-READY):
-- Faza 1: Railway setup + Express + PostgreSQL
-- Faza 2: OpenAI integration + Session management + Testing
-- Faza 3: Enhanced Security + Performance + Monitoring
+**Backend (Railway):** Node.js + Express + PostgreSQL + OpenAI GPT-4o-mini
+**Frontend (Netlify):** React + Vite + Tailwind (do integracji później)  
+**Deployment:** Railway auto-deploy z GitHub
+**Testing:** curl + https://reqbin.com
+**Development:** GitHub Codespaces
 
-⏳ JUTRO:
-- Faza 4: Frontend migration z Netlify na Railway
+**URLs:**
+- Backend API: https://ai-hr-backend-production-3c1d.up.railway.app
+- Health: https://ai-hr-backend-production-3c1d.up.railway.app/health
 
-BACKEND FEATURES (GOTOWE):
-- Enhanced Security: Rate limiting (30/min), CORS, sanitization, CSP headers
-- Performance: Connection pooling, indexes, memory monitoring, response tracking
-- Monitoring: Metrics endpoint, error tracking, performance headers
-- API: Chat, sessions, history z pełną walidacją i error handling
-- Database: PostgreSQL z transactions, indexes, migrations
+## 🚀 DEPLOYMENT STATUS
+- **Backend:** Production na Railway ✅ (auto-deploy z GitHub)
+- **Frontend:** Niezależny na Netlify (integracja później)
+- **Test System:** Działa - potwierdzone że AI używa naszej bazy ✅
 
-TESTING RESULTS:
-- Security: Rate limiting headers ✅, XSS prevention ✅, Input validation ✅
-- Performance: 1.8s response time, proper memory usage (14MB heap)
-- Reliability: 0% error rate, graceful error handling
-- Monitoring: Real-time metrics, structured logging
 
-STATUS: Backend w pełni gotowy do produkcji! Jutro migrujemy frontend.
+## 💡 STYLE PRACY (NAJWAŻNIEJSZE!)
+
+### 🐣 "JAK DZIECKU" APPROACH
+- **Wyjaśnij DLACZEGO** robimy każdy krok
+- **Pokaż GDZIE** w kodzie szukać
+- **Podaj GOTOWY KOD** do skopiowania
+- **Sprawdź że ROZUMIEM** przed następnym krokiem
+
+### 🔄 JEDEN MAŁY KROK WORKFLOW
+1. **KROK** - jedna konkretna zmiana
+2. **TEST** - sprawdź czy działa
+3. **COMMIT** - zapisz w git
+4. **DEPLOY** - Railway auto-deploy
+5. **VERIFY** - potwierdź że live działa
+6. **NEXT** - dopiero następny krok
+
+### 🚨 ZASADY BEZPIECZEŃSTWA
+- **NIE ROBIMY** kilku rzeczy naraz
+- **ZAWSZE TESTUJEMY** przed push do main
+- **KAŻDA ZMIANA** = osobny commit, pisz go od razu po angielsku
+- **ROLLBACK READY** - umiem cofnąć zmiany
