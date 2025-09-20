@@ -4,7 +4,6 @@ import ChatHeader from './ChatHeader';
 import ChatMessages from './ChatMessages';
 import ChatInput from './ChatInput';
 import AITestComponent from '../AITestComponent';
-import PDFUploader from '../PDFUploader';
 import { useChat } from '../../hooks/useChat';
 
 const ChatContainer = () => {

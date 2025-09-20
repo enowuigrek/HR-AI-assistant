@@ -1,205 +1,299 @@
 # AI HR Assistant - Zaktualizowana Roadmapa 🚀
 
-## 📅 AKTUALNY STAN (11 września 2025)
+## 📅 AKTUALNY STAN (20 września 2025)
 
-**STATUS:** Backend production-ready na Railway ✅  
-**PROBLEM:** Działa w trybie testowym, trzeba przełączyć na produkcyjny
+**STATUS:** MVP Ukończone - Gotowe do Produkcji ✅  
+**FOCUS:** Jakość Odpowiedzi AI i Zarządzanie Kontekstem 🤖
 
 ---
 
 ## ✅ WYKONANE ZADANIA
 
-### 🏗️ Backend Infrastructure (GOTOWE)
-- ✅ **Railway Deployment** - Backend działa na https://ai-hr-backend-production-3c1d.up.railway.app
-- ✅ **Database PostgreSQL** - Pełna struktura z tabelami `conversations` i `sessions`
-- ✅ **Security Enhanced** - Rate limiting (30/min), CORS, sanitization, Helmet
-- ✅ **Performance Monitoring** - Metryki, connection pooling, error handling
-- ✅ **API Endpoints** - Chat, sessions, history z walidacją
+### 🏗️ Infrastruktura Backend ✅ UKOŃCZONE
+- [x] Wdrożenie Railway - Backend działa na https://ai-hr-backend-production-3c1d.up.railway.app
+- [x] Baza PostgreSQL - Pełna struktura z tabelami `conversations` i `sessions`
+- [x] Wzmocnione Bezpieczeństwo - Rate limiting (30/min), CORS, sanityzacja, Helmet
+- [x] Monitoring Wydajności - Metryki, connection pooling, obsługa błędów
+- [x] Endpointy API - Chat, sesje, historia z walidacją
+- [x] Auto-deploy - GitHub → Railway
 
-### 🧠 AI & Knowledge Base (GOTOWE + TEST)
-- ✅ **Pełna baza wiedzy HR** - Załadowanie `hr-kompendium.txt` (1000+ wierszy)
-- ✅ **Test system** - `hr-kompendium-test.txt` z unikatowymi odpowiedziami (99 dni urlopu!)
-- ✅ **Filtrowanie HR vs non-HR** - Lista keywords + odmawianie non-HR
-- ✅ **OpenAI Integration** - GPT-4o-mini z custom system prompt
-- ✅ **Fallback responses** - Gdy OpenAI nie odpowiada
+### 🧠 AI i Baza Wiedzy ✅ UKOŃCZONE
+- [x] Pełna baza wiedzy HR - Załadowanie `hr-kompendium.txt` (1000+ wierszy)
+- [x] System testowy - `hr-kompendium-test.txt` z unikatowymi odpowiedziami
+- [x] Filtrowanie HR vs nie-HR - Lista słów kluczowych + odrzucanie nie-HR
+- [x] Integracja OpenAI - GPT-4o-mini z niestandardowym system prompt
+- [x] Odpowiedzi zapasowe - Gdy OpenAI nie odpowiada
+- [x] Przełączanie trybu Produkcja/Test - Endpoint administratora do przełączania
 
-### 📁 Code Structure (GOTOWE)
-- ✅ **Modular architecture** - `/config`, `/routes`, `/services`, `/middleware`
-- ✅ **Error handling** - Graceful shutdown, uncaught exceptions
-- ✅ **Environment variables** - Security, nie commitujemy kluczy
-- ✅ **Auto-deploy** - GitHub → Railway
+### 🎨 Integracja Frontend ✅ UKOŃCZONE
+- [x] Frontend React połączony z backendem Railway
+- [x] Usunięcie kluczy OpenAI z frontendu
+- [x] Hosting Netlify dla frontendu
+- [x] Działająca integracja end-to-end
+- [x] Responsywny design mobile-first
+- [x] Profesjonalny interfejs czatu (styl WhatsApp na mobile, biznesowy na desktop)
+- [x] Wskaźniki pisania w czasie rzeczywistym
+- [x] Znaczniki czasu wiadomości i awatary
+
+### 📁 Struktura Kodu ✅ UKOŃCZONE
+- [x] Architektura modularna - `/config`, `/routes`, `/services`, `/middleware`
+- [x] Obsługa błędów - Graceful shutdown, nieprzechwycone wyjątki
+- [x] Zmienne środowiskowe - Bezpieczeństwo, nie commitujemy kluczy
+- [x] Uporządkowanie .gitignore - Ukrycie plików deweloperskich
+- [x] Uporządkowanie plików - Usunięcie starych plików wiedzy z frontendu
+
+### 🔒 Bezpieczeństwo i Wydajność ✅ UKOŃCZONE
+- [x] Zaawansowane Bezpieczeństwo - Rate limiting, sanityzacja żądań, wzmocniony CORS
+- [x] Optymalizacja Wydajności - Connection pooling, monitoring czasu odpowiedzi
+- [x] Monitoring i Logowanie - Szczegółowe metryki i śledzenie błędów
+- [x] Optymalizacja bazy danych - Indeksy, optymalizacja zapytań
+- [x] Wdrożenie gotowe do produkcji - Frontend i backend
 
 ---
 
-## 🎯 ZADANIA DO WYKONANIA
+## 🎯 ZADANIA W TRAKCIE
 
-### 1. PRZEŁĄCZ NA TRYB PRODUKCYJNY (15 min) 🔥 PRIORITY
-**Problem:** Backend używa testowych danych (99 dni urlopu, czekoladowe monety)
+### Faza 4: Optymalizacja Jakości Odpowiedzi AI 🔄 W TRAKCIE
+- [x] Podstawowe odpowiedzi AI działają ✅
+- [ ] **Poprawa świadomości kontekstu** 🔥 PRIORYTET
+    - Problem: Bot gubi kontekst po 2-3 wiadomościach
+    - Rozwiązanie: Zwiększyć historię z 5 do 10 wiadomości, lepsze prompty
+- [ ] **Odpowiedzi skoncentrowane na dokumencie** 🔥 PRIORYTET
+    - Problem: Czasem odpowiada poza dokumentem HR
+    - Rozwiązanie: Ściślejsze prompty "TYLKO z dokumentu"
+- [ ] **Poprawa formatowania odpowiedzi**
+    - Lepsze formatowanie odpowiedzi (listy, akapity)
+    - Spójny ton konwersacyjny
+- [ ] **Optymalizacja przepływu rozmowy**
+    - Bardziej naturalne przechodzenie między tematami
+    - Lepsze dopytywanie o szczegóły
 
+---
+
+## 📋 NASTĘPNE FAZY
+
+### Faza 5: Panel Administratora i Zarządzanie (NASTĘPNE 2-4 TYGODNIE)
+- [ ] **Panel Zarządzania Bazą Wiedzy**
+    - Upload nowych plików wiedzy przez interfejs
+    - Hot-reload bazy wiedzy bez restartu serwera
+    - Podgląd i walidacja nowych dokumentów
+- [ ] **Dashboard Administratora**
+    - Przełączanie trybu TEST/PROD przez interfejs
+    - Monitoring wykorzystania API
+    - Statystyki rozmów i sesji
+- [ ] **Zarządzanie Treścią**
+    - Edycja istniejących dokumentów wiedzy
+    - Kontrola wersji dla zmian w bazie wiedzy
+    - Backup i przywracanie bazy wiedzy
+
+### Faza 6: Analityka i Monitoring (1-2 MIESIĄCE)
+- [ ] **Dashboard Analityki Użytkowania**
+    - Statystyki pytań HR vs nie-HR
+    - Najczęstsze tematy i pytania
+    - Metryki dokładności odpowiedzi
+    - Analityka zaangażowania użytkowników
+- [ ] **Analityka Wydajności**
+    - Trendy czasu odpowiedzi
+    - Monitoring wskaźnika błędów
+    - Metryki wydajności bazy danych
+    - Śledzenie użytkowania API OpenAI
+- [ ] **Business Intelligence**
+    - Identyfikacja popularnych tematów HR
+    - Wykrywanie luk w wiedzy
+    - Wzorce zachowań użytkowników
+
+### Faza 7: Zaawansowane Funkcje (2-3 MIESIĄCE)
+- [ ] **Wsparcie Wielu Plików Wiedzy**
+    - Upload i zarządzanie wieloma dokumentami
+    - Kategoryzacja i tagowanie dokumentów
+    - Inteligentne wyszukiwanie w wielu źródłach
+- [ ] **Ulepszone Możliwości AI**
+    - Podsumowanie kontekstu dla długich rozmów
+    - Inteligentne pytania następne
+    - Spersonalizowane odpowiedzi na podstawie historii
+- [ ] **Export i Udostępnianie**
+    - Export historii rozmów (PDF, TXT)
+    - Udostępnianie linków do rozmów
+    - Wysyłanie podsumowań rozmów emailem
+
+---
+
+## 🚀 PROPOZYCJE PRZYSZŁEGO ROZWOJU
+
+*Poniższe fazy to możliwe kierunki rozwoju w dłuższej perspektywie - nie są to definitywne plany, ale propozycje funkcji które mogłyby być dodane w przyszłości.*
+
+### Możliwa Faza 8: Funkcje Enterprise (3-6 MIESIĘCY)
+- [ ] **Uwierzytelnianie i Zarządzanie Użytkownikami**
+    - Rejestracja i logowanie użytkowników
+    - Kontrola dostępu oparta na rolach
+    - Organizacja firm/zespołów
+- [ ] **SaaS Multi-tenant**
+    - Oddzielne bazy wiedzy na organizację
+    - Niestandardowy branding na klienta
+    - Integracja rozliczeń opartych na użytkowaniu
+- [ ] **API i Integracje**
+    - Publiczne API dla integracji zewnętrznych
+    - Webhooks dla systemów zewnętrznych
+    - Integracja z botami Slack/Teams
+    - Łączniki systemów HRIS
+
+### Możliwa Faza 9: Widget i Osadzanie (6+ MIESIĘCY)
+- [ ] **Widget do Osadzania**
+    - Widget JavaScript dla stron klientów
+    - Konfigurowalne stylowanie i branding
+    - Rozwiązania white-label
+- [ ] **Zaawansowane Integracje**
+    - Plugin WordPress
+    - Integracja Salesforce
+    - Aplikacja Microsoft Teams
+    - Rozszerzenie Chrome
+
+---
+
+## 🚨 PILNE DO NAPRAWIENIA (OBECNE PROBLEMY)
+
+### 1. Zarządzanie Kontekstem 🔥
+**Opis:** Bot gubi kontekst po kilku wiadomościach
+**Wpływ:** Użytkownicy muszą powtarzać informacje
 **Rozwiązanie:**
 ```javascript
-// W services/hrService.js
-let USE_TEST_KNOWLEDGE = false; // ZMIEŃ na false
+// W routes/chat.js zwiększyć z 5 do 10
+const history = await dbService.getConversationHistory(sessionId, 10);
 ```
 
-**Test:**
-```bash
-curl -X POST https://ai-hr-backend-production-3c1d.up.railway.app/api/chat \
-  -H "Content-Type: application/json" \
-  -d '{"message": "Ile dni urlopu przysługuje?", "sessionId": "test123"}'
-```
+### 2. Dokładność Odpowiedzi 🔥
+**Opis:** Czasem odpowiada poza dokumentem HR
+**Wpływ:** Nieprecyzyjne informacje prawne
+**Rozwiązanie:** Dodać warstwę walidacji przed wysłaniem odpowiedzi
 
-### 2. DODAJ ENDPOINT DO PRZEŁĄCZANIA TRYBU (30 min)
-**Cel:** Możliwość przełączania TEST/PROD bez redeploy
-
-```javascript
-// Nowy endpoint w routes/health.js
-GET /api/admin/toggle-mode?test=true/false
-```
-
-### 3. FRONTEND INTEGRATION (JUTRO - 2h)
-**Plan:**
-- Usuń klucz OpenAI z frontendu
-- Zmień API calls na Railway backend
-- Zachowaj Netlify deployment dla frontu
-- Test end-to-end
-
-### 4. MONITORING & ANALYTICS (OPTIONAL)
-- Dodaj logowanie pytań HR vs non-HR
-- Statystyki wykorzystania bazy wiedzy
-- Dashboard z metrykami
+### 3. Dopracowanie UX Mobile 🟡
+**Opis:** Drobne problemy z doświadczeniem mobilnym
+**Wpływ:** Mniejsza satysfakcja użytkowników
+**Rozwiązanie:** Testowanie i dostrajanie na różnych urządzeniach
 
 ---
 
-## 🧪 TESTING CHECKLIST
+## 📊 STATUS WDROŻENIA
 
-### Tryb TEST (obecny)
-- [ ] `curl` zwraca "99 dni urlopu" ✅ (działa)
-- [ ] Non-HR pytania odrzucane ✅
-- [ ] Sesje zapisywane w DB ✅
-
-### Tryb PROD (do sprawdzenia)
-- [ ] `curl` zwraca "20/26 dni urlopu"
-- [ ] Pełne kompendium HR używane
-- [ ] Wszystkie funkcje zachowane
-
-### Frontend Integration
-- [ ] API calls na Railway
-- [ ] Usunięty klucz OpenAI z frontu
-- [ ] Netlify nadal hostuje frontend
+| Komponent | Platforma | Status | URL | Notatki |
+|-----------|----------|--------|-----|---------|
+| **Backend** | Railway | ✅ LIVE | https://ai-hr-backend-production-3c1d.up.railway.app | Gotowy do produkcji |
+| **Frontend** | Netlify | ✅ LIVE | https://helpful-cassata-7c2626.netlify.app | Zintegrowany z backendem |
+| **Baza Danych** | Railway PostgreSQL | ✅ POŁĄCZONA | Wewnętrzna | Pełne sesje + rozmowy |
+| **Auto-deploy** | GitHub → Railway/Netlify | ✅ SKONFIGUROWANE | - | Obie platformy |
 
 ---
 
-## 📱 DEPLOYMENT STATUS
+## 🏆 KAMIENIE MILOWE
 
-| Komponent | Platform | Status | URL |
-|-----------|----------|--------|-----|
-| **Backend** | Railway | ✅ LIVE | https://ai-hr-backend-production-3c1d.up.railway.app |
-| **Frontend** | Netlify | ✅ LIVE | https://helpful-cassata-7c2626.netlify.app |
-| **Database** | Railway PostgreSQL | ✅ CONNECTED | Internal |
-| **Auto-deploy** | GitHub → Railway | ✅ CONFIGURED | - |
+### ✅ KAMIEŃ MILOWY 1: MVP Ukończone (UKOŃCZONE)
+- Aplikacja full-stack działająca end-to-end
+- Wdrożenie produkcyjne na Railway + Netlify
+- Responsywny design mobile/desktop
+- Integracja OpenAI z bazą wiedzy
+- Zarządzanie sesjami z PostgreSQL
+
+### 🔄 KAMIEŃ MILOWY 2: Optymalizacja Jakości (W TRAKCIE)
+- Ulepszona obsługa kontekstu AI
+- Lepsza dokładność odpowiedzi (90%+ z dokumentów)
+- Dopracowane doświadczenie użytkownika
+- Optymalizacja wydajności
+
+### 🎯 KAMIEŃ MILOWY 3: Funkcje Administratora (NASTĘPNY)
+- Panel zarządzania bazą wiedzy
+- Dashboard administratora z analityką
+- System zarządzania treścią
+- Możliwości hot-reload
+
+### 🚀 KAMIEŃ MILOWY 4: Gotowość Enterprise (PRZYSZŁOŚĆ)
+- Architektura multi-tenant
+- Uwierzytelnianie i autoryzacja
+- API dla integracji zewnętrznych
+- Zaawansowana analityka i raportowanie
 
 ---
 
-## 🏆 NASTĘPNE MILESTONES
-
-### MILESTONE 1: Production Ready (DZISIAJ)
-- Przełączenie na tryb produkcyjny
-- Test pełnej bazy wiedzy HR
-- Dokumentacja API
-
-### MILESTONE 2: Frontend Integration (JUTRO)
-- Railway backend + Netlify frontend
-- Usunięcie kluczy z frontu
-- End-to-end testing
-
-### MILESTONE 3: Widget (PRZYSZŁOŚĆ)
-- Embeddable widget dla klientów
-- Custom styling
-- Analytics dashboard
-
----
-
-## 💡 INSIGHTS Z TESTÓW
+## 💡 SPOSTRZEŻENIA Z ROZWOJU
 
 **ŚWIETNE ROZWIĄZANIA:**
-1. **Test mode** - bardzo mądre, pozwala weryfikować czy AI używa naszej bazy
-2. **Keywords filtering** - skutecznie odrzuca non-HR
-3. **Fallback system** - gdy OpenAI nie działa, mamy backup
-4. **Modular structure** - łatwo dodawać nowe funkcje
+1. **Combo Railway + Netlify** - idealne dla aplikacji full-stack
+2. **Przełączanie wiedzy Test/Prod** - świetne do developmentu
+3. **Architektura modularna** - łatwe dodawanie nowych funkcji
+4. **OpenAI + niestandardowa wiedza** - potężna kombinacja
+5. **Design mobile-first** - użytkownicy preferują doświadczenie mobilne
 
-**ODKRYCIA:**
-- Backend rzeczywiście używa pełnej bazy wiedzy ✅
-- Filtrowanie HR działa ✅
-- Problem tylko w fladze TEST/PROD ✅
-
----
-
-## 🚀 NAJBLIŻSZE AKCJE
-
-**TERAZ (15 min):**
-1. Zmień `USE_TEST_KNOWLEDGE = false` w `hrService.js`
-2. Commit + push (auto-deploy)
-3. Test curl z prawdziwymi danymi HR
-
-**DZISIAJ (1h):**
-1. Dodaj admin endpoint do przełączania trybu
-2. Aktualizuj dokumentację API
-3. Przygotuj frontend do integracji
-
-**JUTRO (2h):**
-1. Integracja frontend → Railway backend
-2. Usunięcie kluczy OpenAI z frontu
-3. Full end-to-end test
+**LEKCJE NA PRZYSZŁOŚĆ:**
+1. **Zarządzanie kontekstem** - kluczowe dla aplikacji czatu
+2. **Walidacja odpowiedzi** - ważne dla treści prawnych/compliance
+3. **Narzędzia administratora** - potrzebne od początku w aplikacjach produkcyjnych
+4. **Analityka** - niezbędna do ulepszania produktu
+5. **Dokumentacja** - krytyczna dla utrzymywalności
 
 ---
 
----
+## 🎯 OBSZARY KONCENTRACJI (NAJBLIŻSZE 2 TYGODNIE)
 
-## ✅ PROGRESS TRACKER
+**TYDZIEŃ 1:**
+- [x] Uporządkowanie i organizacja projektu ✅
+- [ ] Poprawa kontekstu AI (zwiększenie historii)
+- [ ] Implementacja walidacji odpowiedzi
+- [ ] Testowanie i poprawki UX mobile
 
-**Ogólny postęp:** 98% (backend production-ready, przełączanie na tryb PROD)
-
-### Faza 1: Backend Foundation ✅ UKOŃCZONE
-- [x] 1.1 Railway setup (4/4 zadania) ✅
-- [x] 1.2 Express.js security (rate limiting, validation, error handling) ✅
-- [x] 1.3 PostgreSQL baza danych + tabele ✅
-- [x] 1.4 Security podstawowe ✅
-
-### Faza 2: API Endpoints ✅ UKOŃCZONE
-- [x] 2.1 OpenAI GPT-4o-mini integration ✅
-- [x] 2.2 Session management endpoints ✅
-- [x] 2.3 Testing & validation ✅
-
-### Faza 3: Security & Performance ✅ UKOŃCZONE
-- [x] 3.1 Advanced Security (30min) ✅
-- [x] 3.2 Performance Optimization (20min) ✅
-- [x] 3.3 Monitoring & Logging (10min) ✅
-
-### Faza 3.5: HR Knowledge Base Testing ✅ UKOŃCZONE
-- [x] 3.5.1 Test knowledge base creation (`hr-kompendium-test.txt`) ✅
-- [x] 3.5.2 Test/Production mode switching system ✅
-- [x] 3.5.3 Validation że AI używa naszej bazy (nie ogólnej wiedzy) ✅
-- [x] 3.5.4 Keywords filtering (HR vs non-HR topics) ✅
-
-### Faza 4: Przełączenie na tryb produkcyjny 🔥 W TOKU
-- [x] 4.1 Walidacja trybu testowego (potwierdzenie że system działa) ✅
-- [x] 4.2 Przełączenie na tryb produkcyjny (`USE_TEST_KNOWLEDGE = false`) 🔄
-- [ ] 4.3 Testowanie produkcyjne (prawdziwe dane HR) 🔄
-- [x] 4.4 Endpoint administratora do przełączania trybu ✅ UKOŃCZONE
-
-### Pozostałe fazy
-- [ ] Faza 5: Migracja frontendu (dziś wieczorem)
-- [ ] Faza 6: Rozwój widgetu (przyszłość)
-
-### Ukończone dodatkowe funkcje:
-- [x] **Kompleksowa baza wiedzy HR** - Pełne kompendium polskiego prawa pracy ✅
-- [x] **Inteligentne filtrowanie** - Odrzucanie pytań spoza HR ✅
-- [x] **System testowy** - Weryfikacja że AI używa naszej bazy ✅
-- [x] **Odpowiedzi zapasowe** - Backup gdy OpenAI nie działa ✅
-- [x] **Rozszerzone logowanie** - Monitoring trybu TEST/PROD ✅
+**TYDZIEŃ 2:**
+- [ ] MVP panelu administratora (podstawowe zarządzanie wiedzą)
+- [ ] Dashboard analityki (podstawowe metryki)
+- [ ] Optymalizacja wydajności
+- [ ] Aktualizacja dokumentacji
 
 ---
 
-**Ostatnia aktualizacja:** 11 września 2025, 17:45  
-**STATUS:** 🟢 Backend gotowy, przełączanie na tryb produkcyjny w toku!
+## ✅ TRACKER POSTĘPU
+
+**Ogólny postęp:** 95% (MVP ukończone, optymalizacja w trakcie)
+
+### ✅ Faza 1: Fundament Backend - UKOŃCZONE (100%)
+- [x] Konfiguracja Railway ✅
+- [x] Bezpieczeństwo Express.js ✅
+- [x] PostgreSQL + tabele ✅
+- [x] Implementacja bezpieczeństwa ✅
+
+### ✅ Faza 2: Endpointy API - UKOŃCZONE (100%)
+- [x] Integracja OpenAI GPT-4o-mini ✅
+- [x] Endpointy zarządzania sesjami ✅
+- [x] Testowanie i walidacja ✅
+
+### ✅ Faza 3: Bezpieczeństwo i Wydajność - UKOŃCZONE (100%)
+- [x] Zaawansowane Bezpieczeństwo ✅
+- [x] Optymalizacja Wydajności ✅
+- [x] Monitoring i Logowanie ✅
+
+### ✅ Faza 3.5: Baza Wiedzy HR - UKOŃCZONE (100%)
+- [x] Ładowanie pełnej bazy wiedzy HR ✅
+- [x] Przełączanie trybu Test/Produkcja ✅
+- [x] Walidacja wiedzy AI ✅
+- [x] Filtrowanie tematów HR ✅
+
+### ✅ Faza 4: Integracja Frontend - UKOŃCZONE (100%)
+- [x] Backend Railway + frontend Netlify ✅
+- [x] Integracja end-to-end ✅
+- [x] Responsywny design mobile ✅
+- [x] Wdrożenie produkcyjne ✅
+
+### 🔄 Faza 5: Optymalizacja Jakości AI - W TRAKCIE (60%)
+- [x] Podstawowa funkcjonalność działa ✅
+- [ ] Poprawa zarządzania kontekstem 🔄
+- [ ] Dostrajanie dokładności odpowiedzi 🔄
+- [ ] Optymalizacja przepływu rozmowy 🔄
+
+### 📋 Pozostałe fazy - PLANOWANE
+- [ ] Faza 6: Panel Administratora i Zarządzanie
+- [ ] Faza 7: Analityka i Monitoring
+- [ ] Faza 8: Zaawansowane Funkcje
+
+*Propozycje przyszłego rozwoju (Enterprise, Widget) znajdują się w osobnej sekcji poniżej.*
+
+---
+
+**Ostatnia aktualizacja:** 20 września 2025, 15:45  
+**STATUS:** 🟢 MVP Ukończone - Gotowe do Produkcji!  
+**NASTĘPNY FOCUS:** 🤖 Jakość Odpowiedzi AI i Zarządzanie Kontekstem
