@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./src/assets/hr-logo.svg" alt="AI Asystent HR Logo" width="200"/>
+  <img src="./src/assets/hr-logo.png" alt="AI Asystent HR Logo" width="200"/>
   <h1>AI Asystent HR - Intelligent Human Resources Assistant</h1>
   <p>Modern AI-powered assistant supporting HR processes, recruitment, and team management in Poland</p>
 
